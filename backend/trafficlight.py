@@ -7,5 +7,9 @@ mongo = PyMongo(app)
 
 myCollection = mongo.db.g17
 
+@app.route('/', methods=['GET'])
+def hello():
+    return {"data": "hello"}
+
 if __name__ == "__main__":
     app.run(debug=True)
