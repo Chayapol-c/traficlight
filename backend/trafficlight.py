@@ -19,6 +19,7 @@ def parkingTime():
     data = request.json
     timeIn = data["timeIn"]
 
+
     fmt = '%Y-%m-%d %H:%M:%S'
     tstamp1 = datetime.strptime(timeIn, fmt)
     tstamp2 = datetime.strptime(currentTime, fmt)
