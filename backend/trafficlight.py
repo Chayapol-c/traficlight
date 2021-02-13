@@ -65,7 +65,7 @@ def show():
             "timeIn" : data["timeIn"]
         })
     
-    return { "result": output }
+    return {"result": output}
     
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = '50000', debug = True)
