@@ -8,7 +8,7 @@ const timeDetails = document.querySelectorAll(".time")
 
 
 const changeStage = (index) =>{
-    cards[index].style.cssText = "background: #f36;"
+    cards[index].style.cssText = "background: hsl(359, 100%, 65%)"
     timeDetails[index].style.cssText = "visibility: visible;"
 }
 
@@ -54,7 +54,7 @@ const updateData = (data) =>{
 }
 
 const getData = () =>{
-    fetch("https://backend.cpsk-club.xyz/g17/", {
+    fetch("http://localhost:50000/parking", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         })
@@ -69,5 +69,3 @@ const getData = () =>{
 
 window.setInterval(getData(), 2000 );
 window.setInterval(updateData(cars), 2000 );
-
-

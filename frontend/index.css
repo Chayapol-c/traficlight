@@ -20,7 +20,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: greenyellow;
+    background: hsl(110, 100%, 65%);
     width:200px;
     height:310px;
     border-radius:10px;
