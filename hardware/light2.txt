@@ -1,12 +1,43 @@
 #include<WiFi.h>
 #include<HTTPClient.h>
+#include<ArduinoJson.h>
 const char* ssid = "Opalnakuuub";
 const char* password = "123456789";
 
+const char* url = "http://158.108.182.23:3000";
 int ldr3 = 32;
-int status3;
 int ldr4 = 33;
-int status4;
+
+char str[50];
+const int _size = 2 *  JSON_OBJECT_SIZE(3);
+
+StaticJsonDocument<_size> JSONPost;
+
+void _post(char cp, bool ck) {
+  if(WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+
+    http.begin(url);
+    http.addHeader("Content-Type", "application/json");
+
+    JSONPost["nameCarPark"] = cp;
+    JSONPost["isAvailable"] = ck;
+    serializeJson(JSONPost, str);
+    int httpCode = http.POST(str);
+
+    if(httpCode == HTTP_CODE_OK) {
+      String payload = http.getString();
+      Serial.println(httpCode);
+      Serial.println(payload);
+      }else {
+          Serial.println(httpCode);
+          Serial.println("ERROR on HTTP Request");
+      }
+    }else {
+            WiFi_Connect();
+          }
+    delay(100);
+  }
 
 void WiFi_Connect() {
   // put your setup code here, to run once:
@@ -31,16 +62,15 @@ void setup() {
   WiFi_Connect();
 }
 
-
 void loop() {
   if(analogRead(ldr3) > 400) {
-        status3 = 1;
+      _post('3', true);
     }else {
-       status3 = 0;
+       _post('3', false);
     }
    if(analogRead(ldr4) > 400) {
-      status4 = 1;
+      _post('4', true);
     }else {
-       status4 = 0;
+       _post('4', false);
     }
 }
