@@ -57,14 +57,17 @@ const updateData = (data) =>{
 const getData = () =>{
     fetch("http://localhost:50000/parking", {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
-        })
-        .then(res => res.json())
+        headers: {
+            'Content-Type' : 'application/json',
+            "Access-Control-Allow-Origin": "*",
+        }})
+        .then(res => {res.json()
+        console.log(res)})
         .then(data => {
             console.log(data)
         })
         .catch(err => {
-            console.log(err)
+           console.log(err.message)
         })
 }
 
@@ -106,5 +109,5 @@ const showGraph = () =>{
 }
 
 showGraphBtn.addEventListener("click", showGraph)
-//window.setInterval(getData(), 2000 );
+window.setInterval(getData, 2000 );
 window.setInterval(updateData(cars), 2000 );
