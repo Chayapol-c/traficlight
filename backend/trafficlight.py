@@ -33,23 +33,42 @@ def new_parking():
     data = request.json
     insert = ({
         "nameCarPark": data["nameCarPark"],
-        "isAvailable": True,
+        "isAvailable": False,
         "timeIn" : currentTime()
     })
     myCollection.insert_one(insert)
     return {"result": "add successful"}
 
-@app.route('/parking', methods = ['PATCH'])
-def update_parking_true():
-    data = request.json
-    filt = {"nameCarPark": data["nameCarPark"]}
-    update = {"$set":{
-        "isAvailable": True,
-        "timeIn" : currentTime()
-    }}
-    myCollection.update_one(filt, update)
 
-    return {"result": "update successful"}
+@app.route('/parking', methods = ['PATCH'])
+def update_parking():
+    data = request.json
+    filt = {
+        "nameCarPark": data["nameCarPark"]
+    }
+    query = myCollection.find_one(filt)
+    status = query['isAvailable']
+    car = data['isAvailable']
+
+    if status == True and car == False:
+        update = {"$set":{
+            "isAvailable": False,
+            "timeIn" : currentTime()
+        }}
+        myCollection.update_one(filt, update)
+
+        return {"result": "Parked"}
+
+    elif status == False and car == True:
+        update = {"$set":{
+            "isAvailable": True,
+            "timeIn" : currentTime()
+        }}
+        myCollection.update_one(filt, update)
+
+        return {"result": "out"}         
+    else:
+        return {"result": "nothing"}
 
 @app.route('/parking', methods = ['GET'])
 def show():
@@ -69,14 +88,10 @@ def show():
 @app.route('/parking/cost', methods = ['GET'])
 def cost():
     para = request.args
-    data = myCollection.find(para)
-    output = []
-    for data in data:
-        output.append({
-            "timeIn" : data["timeIn"]
-        })
-    
-    timeEnd = str(output[0]["timeIn"])
+    data = myCollection.find_one(para)
+    if(data["isAvailable"] == True):
+        return {"result": 0}
+    timeEnd = data["timeIn"]
     time_min = parkingTime(timeEnd)
     cost = 20 * time_min
     return {"result": cost}
