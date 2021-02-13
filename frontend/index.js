@@ -35,7 +35,7 @@ const updateTime =(data, num) =>{
 const getCost = () => {
     let numberPark = [1, 2, 3, 4]
     numberPark.forEach(num => {
-        fetch(`http://localhost:50000/parking/cost?nameCarPark=${num}`, {
+        fetch(`http://158.108.182.23:3000/parking/cost?nameCarPark=${num}`, {
             method: "GET",
             headers: {
                 'Content-Type' : 'application/json',
@@ -53,7 +53,7 @@ const getCost = () => {
 
 
 const getData = () =>{
-    fetch(`http://localhost:50000/parking`, {
+    fetch(`http://158.108.182.23:3000/parking`, {
         method: "GET",
         headers: {
             'Content-Type' : 'application/json',
@@ -73,7 +73,7 @@ const getData = () =>{
 const getTime = () =>{
     let numberPark = [1, 2, 3, 4]
     numberPark.forEach(num => {
-        fetch(`http://localhost:50000/parking/cost?nameCarPark=${num}`, {
+        fetch(`http://158.108.182.23:3000/parking/time?nameCarPark=${num}`, {
             method: "GET",
             headers: {
                 'Content-Type' : 'application/json',
