@@ -29,8 +29,8 @@ def parkingTime():
 
     return parkingTime_min
 
-@app.route('/datetime', methods=['POST'])
-def timestamp():
+@app.route('/parking', methods=['POST'])
+def new_parking():
     data = request.json
     insert = ({
         "nameCarPark": data["nameCarPark"],
@@ -39,6 +39,18 @@ def timestamp():
     })
     myCollection.insert_one(insert)
     return {"result": "add successful"}
+
+@app.route('/parking', methods = ['PATCH'])
+def update_parking_true():
+    data = request.json
+    filt = {"nameCarPark": data["nameCarPark"]}
+    update = {"$set":{
+        "isAvailable": True,
+        "timeIn" : currentTime()
+    }}
+    myCollection.update_one(filt, update)
+
+    return {"result": "update successful"}
 
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = '50000', debug = True)
