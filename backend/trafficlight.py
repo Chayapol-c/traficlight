@@ -2,13 +2,14 @@ from flask import Flask, request
 from flask_pymongo import PyMongo
 from datetime import datetime
 from time import time
+from flask_cors import CORS
 import json
 import math
 
 app = Flask(__name__)
+CORS(app)
 app.config['MONGO_URI'] = 'mongodb://exceed_user:1q2w3e4r@158.108.182.0:2277/exceed_backend'
 mongo = PyMongo(app)
-
 myCollection = mongo.db.g17
 
 def currentTime():
@@ -40,7 +41,7 @@ def new_parking():
 
 @app.route('/parking', methods = ['PATCH'])
 def update_parking_true():
-    data = request.args
+    data = request.json
     filt = {"nameCarPark": data["nameCarPark"]}
     update = {"$set":{
         "isAvailable": True,
