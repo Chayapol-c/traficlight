@@ -65,6 +65,17 @@
 }
 
 #chartContainer{
-    display: none;
+    position: absolute;
+
+    top: 0;
+    z-index: 1;
 }
 
+.display{
+    visibility: visible;
+    height: 300px; 
+    width: 60%;
+}
+.hidden{
+    visibility: hidden;
+}

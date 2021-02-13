@@ -1,10 +1,11 @@
 "use-strict"
 
-console.log("Test")
-
 const cards = document.querySelectorAll(".card")
 const status = document.querySelectorAll(".status")
 const timeDetails = document.querySelectorAll(".time")
+const showGraphBtn = document.querySelector(".btn-graph")
+const graph = document.querySelector("#chartContainer")
+
 
 
 const changeStage = (index) =>{
@@ -42,7 +43,7 @@ const car4 = {
 
 
 const cars = [car1, car2, car3, car4]
-
+const costs = []
 
 const updateData = (data) =>{
     data.forEach(ele => {
@@ -67,5 +68,43 @@ const getData = () =>{
         })
 }
 
-window.setInterval(getData(), 2000 );
+
+window.onload = function () {
+    let chart = new CanvasJS.Chart("chartContainer", {
+        animationEnabled: true,
+        theme: "light2",
+        title:{
+            text: "total money vs time-interval"
+        },
+        data: [{        
+            type: "line",
+              indexLabelFontSize: 16,
+            dataPoints: [
+                { y: 450 },
+                { y: 414},
+                { y: 520},
+                { y: 460 },
+                { y: 450 },
+                { y: 500 },
+                { y: 480 },
+                { y: 480 },
+                { y: 410},
+                { y: 500 },
+                { y: 480 },
+                { y: 510 }
+            ]
+        }]
+    });
+    chart.render();
+    }
+
+
+const showGraph = () =>{
+    graph.classList.toggle("hidden")
+    console.log(graph)
+
+}
+
+showGraphBtn.addEventListener("click", showGraph)
+//window.setInterval(getData(), 2000 );
 window.setInterval(updateData(cars), 2000 );
