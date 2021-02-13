@@ -1,0 +1,22 @@
+int ldr1 = 32;
+int status1;
+int ldr2 = 33;
+int status2;
+
+void setup() {
+  pinMode(ldr1, INPUT);
+  pinMode(ldr2, INPUT);
+}
+
+void loop() {
+  if(analogRead(ldr1) > 400) {
+      status1 = 1;
+    }else {
+       status1 = 0;
+    }
+   if(analogRead(ldr2) > 400) {
+      status2 = 1;
+    }else {
+       status2 = 0;
+    }
+}
