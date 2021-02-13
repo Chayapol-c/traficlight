@@ -2,6 +2,8 @@ from flask import Flask, request
 from flask_pymongo import PyMongo
 from datetime import datetime
 from time import time
+import json
+import math
 
 app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb://exceed_user:1q2w3e4r@158.108.182.0:2277/exceed_backend'
@@ -15,17 +17,13 @@ def currentTime():
     currentTime = str(datetime.fromtimestamp(ts).strftime(fmt))
     return currentTime
 
-def parkingTime():
-    data = request.json
-    timeIn = data["timeIn"]
-
-
+def parkingTime(timeIn):
     fmt = '%Y-%m-%d %H:%M:%S'
     tstamp1 = datetime.strptime(timeIn, fmt)
-    tstamp2 = datetime.strptime(currentTime, fmt)
+    tstamp2 = datetime.strptime(currentTime(), fmt)
 
     parkingTime_sec = tstamp2 - tstamp1
-    parkingTime_min = int(round(parkingTime_sec.total_seconds() / 60))
+    parkingTime_min = int(math.ceil(parkingTime_sec.total_seconds() / 60))
 
     return parkingTime_min
 
@@ -42,7 +40,7 @@ def new_parking():
 
 @app.route('/parking', methods = ['PATCH'])
 def update_parking_true():
-    data = request.json
+    data = request.args
     filt = {"nameCarPark": data["nameCarPark"]}
     update = {"$set":{
         "isAvailable": True,
@@ -66,6 +64,21 @@ def show():
         })
     
     return {"result": output}
+
+@app.route('/parking/cost', methods = ['GET'])
+def cost():
+    para = request.args
+    data = myCollection.find(para)
+    output = []
+    for data in data:
+        output.append({
+            "timeIn" : data["timeIn"]
+        })
+    
+    timeEnd = str(output[0]["timeIn"])
+    time_min = parkingTime(timeEnd)
+    cost = 20 * time_min
+    return {"result": cost}
     
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = '50000', debug = True)
