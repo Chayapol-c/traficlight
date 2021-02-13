@@ -52,5 +52,20 @@ def update_parking_true():
 
     return {"result": "update successful"}
 
+@app.route('/parking', methods = ['GET'])
+def show():
+    para = request.args
+    data = myCollection.find(para)
+    output = []
+
+    for data in data:
+        output.append({
+            "nameCarPark": data["nameCarPark"],
+            "isAvailable": data["isAvailable"],
+            "timeIn" : data["timeIn"]
+        })
+    
+    return { "result": output }
+    
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = '50000', debug = True)
