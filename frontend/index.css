@@ -9,7 +9,43 @@
     justify-content: center;
     align-items: center;
 }
-
 .card{
     border: 1px solid black;
+    background: #f36;
+    width:200px;
+    height:310px;
+    border-radius:10px;
+    float: left;
+    margin: 9px;
+    position: relative;
+    font-size: 20px;
+    text-align: center;
+    line-height: 20px;
+}
+
+.card2{
+    border: 1px solid black;
+    background: greenyellow;
+    width:200px;
+    height:310px;
+    border-radius:10px;
+    float: left;
+    margin: 9px;
+    position: relative;
+    font-size: 20px;
+    text-align: center;
+    line-height: 20px;
+}
+
+center {
+    width: 65%;
+    height: 65%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    font-size: 70px;
+    text-indent: -5px;
+    word-wrap: break-word;
+    line-height: 53px;
+    padding: 2%;
 }
