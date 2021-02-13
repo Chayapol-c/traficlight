@@ -96,5 +96,15 @@ def cost():
     cost = 20 * time_min
     return {"result": cost}
     
+@app.route('/parking/time', methods = ['GET'])
+def parking_Time():
+    para = request.args
+    data = myCollection.find_one(para)
+    if(data["isAvailable"] == True):
+        return {"result": 0}
+    timeEnd = data["timeIn"]
+    time_min = parkingTime(timeEnd)
+    return {"result": time_min}
+    
 if __name__ == "__main__":
     app.run(host = '0.0.0.0', port = '50000', debug = True)
